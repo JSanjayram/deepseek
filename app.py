@@ -17,7 +17,12 @@ def get_stream_info(video_id):
                 'no_warnings': False,
                 'extract_flat': True,
                 'socket_timeout': 15,
-                'retries': 3
+                'retries': 3,
+                'http_headers': {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+    },
+    'proxy': os.getenv('PROXY_URL') 
             }
             
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
