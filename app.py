@@ -3,9 +3,16 @@ import yt_dlp
 from functools import lru_cache
 import time
 import os
+import random
 
 app = Flask(__name__)
+# Rotate free proxies (unreliable)
+proxies = [
+    "203.0.113.42:3128", 
+    "198.51.100.33:8080"
+]
 
+proxy=random.choice(proxies)
 # Cache responses for 10 minutes to avoid repeated requests
 @lru_cache(maxsize=128)
 def get_stream_info(video_id):
@@ -16,6 +23,7 @@ def get_stream_info(video_id):
         'format': 'bestaudio/best',
         'quiet': True,
         'no_warnings': True,
+        'proxy': proxy
         'extractor_args': {
             'youtube': {
                 'skip': ['dash', 'hls'],
@@ -25,7 +33,7 @@ def get_stream_info(video_id):
         'http_headers': {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
             'Accept-Language': 'en-US,en;q=0.5'
-        }
+        },
     }
     
             
