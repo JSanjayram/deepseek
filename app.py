@@ -13,18 +13,17 @@ def get_stream_info(video_id):
     for attempt in range(retries):
         try:
             ydl_opts = {
-                'format': 'bestaudio/best',
-                'quiet': True,
-                'no_warnings': False,
-                'extract_flat': True,
-                'socket_timeout': 15,
-                'retries': 3,
-                'http_headers': {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        'Accept-Language': 'en-US,en;q=0.9',
-    },
-    'proxy': os.getenv('PROXY_URL') 
-            }
+    'format': 'bestaudio',
+    'extract_flat': True,
+    'quiet': True,
+    'no_warnings': True,
+    'extractor_args': {
+        'youtube': {
+            'skip': ['dash', 'hls'],  # Avoid bot-triggering formats
+            'player_skip': ['js', 'configs']  # Lightweight parsing
+        }
+    }
+}
             
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(
